@@ -1,2 +1,2 @@
 # topchat-gui
-Simmple GUI for network chat.
+Simple GUI for network chat.
