@@ -1,1 +1,4 @@
-﻿Console.WriteLine("Hello, World!");
+﻿using TopChatGUI;
+
+GUI gUI = new GUI();
+gUI.Create();
