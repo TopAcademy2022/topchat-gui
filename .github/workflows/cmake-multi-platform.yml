@@ -61,44 +61,26 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y qt6-base-dev qt6-tools-dev qt6-tools-dev-tools
 
+    - name: Checkout vcpkg
+      if: runner.os == 'Windows'
+      run: |
+        git clone https://github.com/microsoft/vcpkg.git
+        cd vcpkg
+        .\bootstrap-vcpkg.bat
+
     - name: Install Qt on Windows
       if: runner.os == 'Windows'
       run: |
-        choco install qt5-default -y
+        .\vcpkg.exe install qt5-base:x64-windows
 
-    - name: List directories in C:/Qt/5.15.2/
+    - name: Run CMake on Windows 
       if: runner.os == 'Windows'
-      shell: pwsh
       run: |
-        Write-Host "Listing directories in C:\Qt\5.15.2\:"
-        Get-ChildItem -Path "C:\Qt\5.15.2" -Directory | ForEach-Object {
-          Write-Host $_.FullName
-        }
-      
-    - name: Check if Qt directory exists on Windows
-      if: runner.os == 'Windows'
-      shell: pwsh
-      env:
-        QT_PATH: "${{ matrix.qt_path }}"
-      run: |
-        Write-Host "Checking if QT_PATH exists: $env:QT_PATH"
-        if (-Not (Test-Path $env:QT_PATH)) {
-          Write-Error "Directory $env:QT_PATH does not exist!"
-          exit 1
-        } else {
-          Write-Host "Directory $env:QT_PATH exists."
-        }
-        
-    - name: Run CMake on Windows  
-      if: runner.os == 'Windows'
-      env:
-        CMAKE_PREFIX_PATH: ${{ matrix.qt_path }}
-      run: >
-        cmake -B ${{ steps.strings.outputs.build-output-dir }}
-        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
-        -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
-        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -S ${{ github.workspace }}/gui
+        cmake -B ${{ steps.strings.outputs.build-output-dir }} \
+          -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake \
+          -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
+          -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
+          -S ${{ github.workspace }}/gui
 
     - name: Configure CMake
       if: runner.os == 'Linux'
