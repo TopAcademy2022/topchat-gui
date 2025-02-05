@@ -63,7 +63,7 @@ jobs:
     - name: Install Qt on Windows
       if: runner.os == 'Windows'
       run: |
-        choco install qt5 -y
+        choco install qt5-default -y
 
     - name: Add Qt to PATH on Windows
       if: runner.os == 'Windows'
@@ -71,11 +71,11 @@ jobs:
         echo "C:\Qt\5.15.2\msvc2019_64\bin" >> $env:GITHUB_PATH
       shell: pwsh
   
-    - name: Install CMake on Windows
-      if: runner.os == 'Windows'
-      run: |
-        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
-      shell: cmd
+    # - name: Install CMake on Windows
+    #   if: runner.os == 'Windows'
+    #   run: |
+    #     choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
+    #   shell: cmd
 
     - name: Configure with CMake on Windows
       if: runner.os == 'Windows'
