@@ -64,27 +64,30 @@ jobs:
       if: runner.os == 'Windows'
       run: |
         choco install qt5-default -y
-
-    - name: Add Qt to PATH on Windows
+    
+    - name: Locate Qt installation path on Windows
       if: runner.os == 'Windows'
-      run: |
-        echo "C:\Qt\5.15.2\msvc2019_64\bin" >> $env:GITHUB_PATH
       shell: pwsh
-  
-    - name: Install CMake on Windows
-      if: runner.os == 'Windows'
       run: |
-        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
-      shell: cmd
+        $searchPaths = @("C:\Program Files\Qt", "C:\Qt")
+        $qtPath = $null
+        foreach ($path in $searchPaths) {
+          Write-Host "Searching in $path"
+          $result = Get-ChildItem -Path $path -Filter 'Qt5Config.cmake' -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1
+          if ($result) {
+            $qtPath = $result.DirectoryName
+            break
+          }
+        }
+        if (-not $qtPath) {
+          Write-Error "Qt5Config.cmake not found."
+          exit 1
+        }
+        Write-Host "Found Qt installation path: $qtPath"
 
-    - name: Configure with CMake on Windows
-      if: runner.os == 'Windows'
-      env:
-        CMAKE_PREFIX_PATH: C:\Qt\5.15.2\msvc2019_64
-      run: cmake -S ./gui/ -B build
+        echo "CMAKE_PREFIX_PATH=$qtPath" >> $env:GITHUB_ENV
 
     - name: Configure CMake
-      if: runner.os == 'Linux'
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: >
