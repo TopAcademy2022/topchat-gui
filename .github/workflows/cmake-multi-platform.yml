@@ -66,6 +66,15 @@ jobs:
       run: |
         choco install qt5-default -y
 
+    - name: List directories in C:/Qt/5.15.2/
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: |
+        Write-Host "Listing directories in C:\Qt\5.15.2\:"
+        Get-ChildItem -Path "C:\Qt\5.15.2" -Directory | ForEach-Object {
+          Write-Host $_.FullName
+        }
+      
     - name: Check if Qt directory exists on Windows
       if: runner.os == 'Windows'
       shell: pwsh
