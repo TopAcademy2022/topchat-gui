@@ -71,22 +71,17 @@ jobs:
         echo "C:\Qt\5.15.2\msvc2019_64\bin" >> $env:GITHUB_PATH
       shell: pwsh
   
-    # - name: Install CMake on Windows
-    #   if: runner.os == 'Windows'
-    #   run: |
-    #     choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
-    #   shell: cmd
+    - name: Install CMake on Windows
+      if: runner.os == 'Windows'
+      run: |
+        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
+      shell: cmd
 
     - name: Configure with CMake on Windows
       if: runner.os == 'Windows'
       env:
         CMAKE_PREFIX_PATH: C:\Qt\5.15.2\msvc2019_64
-      run: >
-        cmake -B ${{ steps.strings.outputs.build-output-dir }}
-        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
-        -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
-        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -S ${{ github.workspace }}/gui
+      run: cmake -S ./gui/ -B build
 
     - name: Configure CMake
       if: runner.os == 'Linux'
