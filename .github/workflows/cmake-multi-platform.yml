@@ -31,7 +31,6 @@ jobs:
           # - os: windows-latest
           #   c_compiler: cl
           #   cpp_compiler: cl
-          #   qt_path: "C:/Qt/5.15.2/msvc2019_64"
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
