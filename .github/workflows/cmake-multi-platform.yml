@@ -69,7 +69,7 @@ jobs:
       if: runner.os == 'Windows'
       shell: pwsh
       run: |
-        $searchPaths = @("C:\Program Files\Qt", "C:\Qt")
+        $searchPaths = @("C:\Qt")
         $qtPath = $null
         foreach ($path in $searchPaths) {
           Write-Host "Searching in $path"
