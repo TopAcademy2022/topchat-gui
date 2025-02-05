@@ -61,33 +61,24 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y qt6-base-dev qt6-tools-dev qt6-tools-dev-tools
 
-    - name: Download vcpkg
-      if: runner.os == 'Windows'
-      run: |
-        git clone https://github.com/microsoft/vcpkg.git
-        cd vcpkg
-        .\bootstrap-vcpkg.bat
+    # - name: Download vcpkg
+    #   if: runner.os == 'Windows'
+    #   run: |
+    #     git clone https://github.com/microsoft/vcpkg.git
+    #     cd vcpkg
+    #     .\bootstrap-vcpkg.bat
 
     - name: Install Qt on Windows
       if: runner.os == 'Windows'
       run: |
-        vcpkg install qt5-base:x64-windows
+        vcpkg install qt
 
-    - name: Run CMake on Windows 
-      if: runner.os == 'Windows'
-      run: |
-        cmake -B ${{ steps.strings.outputs.build-output-dir }} \
-          -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake \
-          -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
-          -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
-          -S ${{ github.workspace }}/gui
-
-    - name: Configure CMake
-      if: runner.os == 'Linux'
+    - name: Configure CMake on Linux
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: >
         cmake -B ${{ steps.strings.outputs.build-output-dir }}
+        ${{ runner.os == 'Windows' ? '-DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake' : '' }}
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
