@@ -65,8 +65,22 @@ jobs:
       if: runner.os == 'Windows'
       run: |
         choco install qt5-default -y
+
+    - name: Check if Qt directory exists on Windows
+      if: runner.os == 'Windows'
+      shell: pwsh
+      env:
+        QT_PATH: "${{ matrix.qt_path }}"
+      run: |
+        Write-Host "Checking if QT_PATH exists: $env:QT_PATH"
+        if (-Not (Test-Path $env:QT_PATH)) {
+          Write-Error "Directory $env:QT_PATH does not exist!"
+          exit 1
+        } else {
+          Write-Host "Directory $env:QT_PATH exists."
+        }
         
-    - name: Install Qt on Windows  
+    - name: Run CMake on Windows  
       if: runner.os == 'Windows'
       env:
         CMAKE_PREFIX_PATH: ${{ matrix.qt_path }}
