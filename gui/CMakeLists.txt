@@ -13,10 +13,10 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Widgets)
 
 add_library(gui SHARED
   gui_global.h
-  interface.cpp
-  interface.h
-  main-window.h
-  main-window.cpp
+  interface.h interface.cpp
+  main-window.h main-window.cpp
+  interface-state.h interface-state.cpp
+  login-state.h login-state.cpp
 )
 
 target_link_libraries(gui PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Widgets)
