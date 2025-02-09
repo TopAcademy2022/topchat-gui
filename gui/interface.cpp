@@ -10,8 +10,11 @@ void CreateWindow()
 
     QApplication a(i, argv);
 
-    MainWindow w;
-    w.show();
+    MainWindow* mainWindow = new MainWindow();
+
+    mainWindow->ChangeState(new LoginState(mainWindow));
+    mainWindow->RenderState();
+    mainWindow->show();
 
     a.exec();
 }
