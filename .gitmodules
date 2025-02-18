@@ -1,0 +1,4 @@
+[submodule "topchat-microkernel-api/topchat-logic"]
+	path = topchat-microkernel-api/topchat-logic
+	url = https://github.com/TopAcademy2022/topchat-logic.git
+	branch = main
