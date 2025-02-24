@@ -1,6 +1,6 @@
 #include "login-state.h"
 
-void LoginState::Render() const
+void LoginState::Render()
 {
     if(this->_mainWindow->centralWidget() == nullptr)
     {
@@ -25,5 +25,5 @@ void LoginState::Render() const
     mainLayout->addWidget(passwordEdit);
     mainLayout->addWidget(loginButton);
 
-    // Connect button for login logic
+    //Connect button for login logic
 }

@@ -9,7 +9,7 @@ class InterfaceState
 public:
     InterfaceState(QMainWindow* mainWindow);
 
-    virtual void Render() const = 0;
+    virtual void Render() = 0;
 
 protected:
     QMainWindow* _mainWindow;

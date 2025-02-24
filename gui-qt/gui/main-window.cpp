@@ -6,7 +6,7 @@ MainWindow::~MainWindow() {}
 
 void MainWindow::ChangeState(InterfaceState* interfaceState)
 {
-    if(this->_interfaceState == nullptr)
+    if(interfaceState != nullptr)
     {
         this->_interfaceState = interfaceState;
     }
@@ -14,5 +14,8 @@ void MainWindow::ChangeState(InterfaceState* interfaceState)
 
 void MainWindow::RenderState()
 {
-    this->_interfaceState->Render();
+    if(this->_interfaceState != nullptr)
+    {
+        this->_interfaceState->Render();
+    }
 }

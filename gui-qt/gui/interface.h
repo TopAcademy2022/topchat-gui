@@ -6,6 +6,6 @@
 #include "main-window.h"
 #include "login-state.h"
 
-GUI_EXPORT void CreateWindow();
+extern "C" GUI_EXPORT int CreateWindow(int& argc, char** argv);
 
 #endif // INTERFACE_H

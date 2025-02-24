@@ -4,12 +4,15 @@ namespace TopChatGUI
 {
 	public class GUI
 	{
-        [DllImport("libgui.dll", EntryPoint = "_Z12CreateWindowv")]
-		private static extern void CreateWindow();
+		[DllImport("libgui.dll")]
+		private static extern int CreateWindow(ref int argc, string[] argv);
 
 		public void Create()
 		{
-			CreateWindow();
+			string[] argv = Environment.GetCommandLineArgs();
+			int argc = argv.Length;
+
+			CreateWindow(ref argc, argv);
 		}
 	}
 }

@@ -9,7 +9,7 @@ class LoginState : public InterfaceState
 public:
     LoginState(QMainWindow* mainWindow) : InterfaceState(mainWindow) {}
 
-    void Render() const override;
+    void Render() override;
 };
 
 #endif // LOGIТ_STATE_H
