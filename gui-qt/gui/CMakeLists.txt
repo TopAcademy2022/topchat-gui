@@ -17,6 +17,9 @@ add_library(gui SHARED
   main-window.h main-window.cpp
   interface-state.h interface-state.cpp
   login-state.h login-state.cpp
+  state-name.h
+  di-container.h di-container.cpp
+  di-container-result.h di-container-result.cpp
 )
 
 target_link_libraries(gui PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Widgets)

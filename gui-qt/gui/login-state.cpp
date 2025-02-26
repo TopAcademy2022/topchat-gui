@@ -11,19 +11,31 @@ void LoginState::Render()
     QVBoxLayout* mainLayout = new QVBoxLayout(this->_mainWindow->centralWidget());
 
     QLabel* loginLabel = new QLabel("Логин:");
-    QLineEdit* loginEdit = new QLineEdit();
+    this->_loginField = new QLineEdit();
 
     QLabel* passwordLabel = new QLabel("Пароль:");
-    QLineEdit* passwordEdit = new QLineEdit();
-    passwordEdit->setEchoMode(QLineEdit::Password);
+    this->_passwordField = new QLineEdit();
+    this->_passwordField->setEchoMode(QLineEdit::Password);
 
     QPushButton *loginButton = new QPushButton("Войти");
 
     mainLayout->addWidget(loginLabel);
-    mainLayout->addWidget(loginEdit);
+    mainLayout->addWidget(this->_loginField);
     mainLayout->addWidget(passwordLabel);
-    mainLayout->addWidget(passwordEdit);
+    mainLayout->addWidget(this->_passwordField);
     mainLayout->addWidget(loginButton);
 
-    //Connect button for login logic
+    QObject::connect(loginButton, &QPushButton::clicked, [&]() {
+        this->loginHandle();
+    });
+}
+
+void LoginState::loginHandle()
+{
+    DIContainer* diContainer = DIContainer::getInstance();
+    //char* login = this->_loginField->text().toUtf8().data();
+    //char* password = this->_passwordField->text().toUtf8().data();
+    char* login = new char[20]();
+    char* password = new char[20]();
+    diContainer->invokeLogic(0, 2, login, password);
 }

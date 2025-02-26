@@ -20,6 +20,12 @@ public:
 
 private:
     InterfaceState* _interfaceState;
+
+signals:
+    void moveNextState(StateName stateName);
+
+public slots:
+    void moveNextStateHandle(StateName stateName);
 };
 
 #endif // MAINWINDOW_H

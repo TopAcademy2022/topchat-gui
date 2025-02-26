@@ -13,6 +13,11 @@
 #include <QObjectList>
 #include <QMessageBox>
 
+#include <typeinfo>
+#include <cstdarg>
+
+#include "state-name.h"
+
 #if defined(GUI_LIBRARY)
 #define GUI_EXPORT Q_DECL_EXPORT
 #else

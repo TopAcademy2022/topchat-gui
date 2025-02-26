@@ -3,6 +3,7 @@
 
 
 #include "gui_global.h"
+#include "di-container.h"
 
 class InterfaceState
 {
